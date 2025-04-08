@@ -15,9 +15,23 @@ const App = () => {
         phoneNumber: user.phoneNumber,
       };
 
-      console.log("User Data:", userData); // ✅ use it however you like
+      const apiResponse = await fetch('http://localhost:5000/api/auth/google-login', {
+        method: 'POST',
+        credentials: "include",
+        headers: {  // Fixed from 'header' to 'headers'
+          'Content-Type': 'application/json'  // Fixed typo "josn" to "json"
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error(`Failed to login: ${apiResponse.statusText}`);
+      }
+
+      const responseData = await apiResponse.json();
+      console.log(responseData);
     } catch (error) {
-      console.error("Google login error:", error);
+      console.error("Google login error:", error.message);
     }
   };
 
