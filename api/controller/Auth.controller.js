@@ -35,3 +35,38 @@ export const login = async (req, res) => {
     });
   }
 };
+export const getUser = async (req, res) => {
+  try {
+    const token = req.cookies.access_token;
+    if (!token) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+    
+    // Verify token and extract user ID
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Fetch the complete user data from database using the ID
+    const user = await User.findById(decoded.id);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+    
+    // Return the complete user object
+    res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
