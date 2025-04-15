@@ -13,8 +13,10 @@ export const login = async (req, res) => {
         email,
         phoneNumber,
         avatar,
-      });
+        admin: false
+            });
       await newUser.save();
+      console.log("New user created:", newUser);
       user = newUser;
     }
 
@@ -22,6 +24,7 @@ export const login = async (req, res) => {
 
     res.cookie("access_token", token, {
       httpOnly: true, 
+      sameSite: "strict",
     });
 
     res.status(200).json({
@@ -35,6 +38,7 @@ export const login = async (req, res) => {
     });
   }
 };
+
 export const getUser = async (req, res) => {
   try {
     const token = req.cookies.access_token;
@@ -70,3 +74,15 @@ export const getUser = async (req, res) => {
     });
   }
 };
+
+
+export const logout = (req, res)=>{
+res.clearCookie("access_token",{
+  httpOnly:true,
+  sameSite:"strict",
+});
+res.status(200).json({
+  success:true,
+  message:"logout successfully",
+});
+}
