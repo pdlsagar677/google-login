@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landingpage from "./components/LandingPage";
-import UserProfile from "./components/User-Profile";
+import Landingpage from "./User-pages/LandingPage";
+import UserProfile from "./User-pages/User-Profile";
 import Navbar from "./layouts/Navbar";
-import Homepage from "./components/Home";
-import AboutPage from "./components/About";
-import ServicesPage from "./components/Serivce";
+import Homepage from "./User-pages/Home";
+import AboutPage from "./User-pages/About";
+import ServicesPage from "./User-pages/Serivce";
 import Footer from "./layouts/Footer";
-import BookingPage from "./components/Booking";
-import ContactPage from "./components/Contact";
+import BookingPage from "./User-pages/Booking";
+import ContactPage from "./User-pages/Contact";
 
 const App = () => {
   return (

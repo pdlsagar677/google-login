@@ -18,7 +18,6 @@ app.use(cors({
 
 // Fixed: Added missing forward slash
 app.use('/api/auth', AuthRoute);
-
 mongoose.connect(process.env.MONGODB_CONN).then(() => {
     console.log('Database connected successfully')
 }).catch(err => console.log('Database connection failed', err))

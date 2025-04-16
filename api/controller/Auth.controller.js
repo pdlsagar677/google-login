@@ -14,22 +14,35 @@ export const login = async (req, res) => {
         phoneNumber,
         avatar,
         admin: false
-            });
+      });
       await newUser.save();
       console.log("New user created:", newUser);
       user = newUser;
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET); 
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '1d' // Add expiration
+    }); 
 
+    // Set HTTP-only cookie
     res.cookie("access_token", token, {
       httpOnly: true, 
-      sameSite: "strict",
+      secure: process.env.NODE_ENV === 'production', // Use secure in production
+      sameSite: 'strict',
+      maxAge: 86400000 // 1 day in ms
     });
 
+    // Return user data but NOT the token (since it's HTTP-only)
     res.status(200).json({
       success: true,
-      user,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+        phoneNumber: user.phoneNumber,
+        admin: user.admin
+      }
     });
   } catch (error) {
     res.status(500).json({

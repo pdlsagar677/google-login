@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {  FaPhoneAlt, FaCalendarAlt, FaInfoCircle, FaConciergeBell, FaChevronDown, FaSignOutAlt } from "react-icons/fa";
+import { 
+  FaPhoneAlt, 
+  FaCalendarAlt, 
+  FaInfoCircle, 
+  FaConciergeBell, 
+  FaChevronDown, 
+  FaSignOutAlt 
+} from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
+import { useAuth } from "../store/Auth"; // Update path as needed
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
-
-  // 👇 Replace this with actual auth check logic (e.g., from context or cookies)
-  const isAuthenticated = true;
-
-  const userData = isAuthenticated
-    ? {
-        name: "John Doe",
-        avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-      }
-    : null;
+  const { user, logoutUser, isLoggedIn } = useAuth();
 
   const handleProfileClick = () => {
     navigate('/profile');
     setIsProfileOpen(false);
   };
 
-  const handleLogout = () => {
-    console.log("User logged out");
-    setIsProfileOpen(false);
-    navigate('/');
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); // This clears the user from context and localStorage
+      setIsProfileOpen(false);
+      navigate('/'); // Redirect to landing page
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   return (
@@ -55,8 +58,8 @@ const Navbar = () => {
               <FaPhoneAlt className="mr-2" /> Contact
             </Link>
 
-            {/* ✅ Profile Dropdown Only if Authenticated */}
-            {isAuthenticated && userData && (
+            {/* Profile Dropdown Only if Authenticated */}
+            {isLoggedIn() && user && (
               <div className="relative ml-4">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -64,10 +67,10 @@ const Navbar = () => {
                 >
                   <img
                     className="h-8 w-8 rounded-full border-2 border-white"
-                    src={userData.avatar}
+                    src={user.avatar || "https://www.gravatar.com/avatar/default?d=mp"}
                     alt="User avatar"
                   />
-                  <span className="ml-2 text-white">{userData.name}</span>
+                  <span className="ml-2 text-white">{user.name}</span>
                   <FaChevronDown className={`ml-1 text-white text-xs transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </button>
 
@@ -120,8 +123,8 @@ const Navbar = () => {
           <Link to="/booking" className="text-yellow-300 font-bold block" onClick={() => setIsProfileOpen(false)}>Book Now</Link>
           <Link to="/contact" className="text-white block" onClick={() => setIsProfileOpen(false)}>Contact</Link>
 
-          {/* ✅ Profile in Mobile Menu if Authenticated */}
-          {isAuthenticated && (
+          {/* Profile in Mobile Menu if Authenticated */}
+          {isLoggedIn() && user && (
             <>
               <Link to="/profile" className="text-white block" onClick={() => setIsProfileOpen(false)}>Profile</Link>
               <button onClick={handleLogout} className="text-white block">Sign Out</button>
