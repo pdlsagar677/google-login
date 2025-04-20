@@ -2,18 +2,18 @@ import User from "../models/User.model.js";
 
 // Get all users
 const getAllUsers = async (req, res, next) => {
-    try {
-        const users = await User.find({}, { password: 0 });
-        console.log(users);
+  try {
+    const users = await User.find({}, { password: 0 });
 
-        if (!users || users.length === 0) {
-            return res.status(404).json({ message: "No users found" });
-        }
-
-        return res.status(200).json(users);
-    } catch (error) {
-        next(error);
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
     }
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error getting users:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
 };
 
 // Get user by ID
@@ -32,7 +32,7 @@ const getUserById = async (req, res, next) => {
     }
 };
 
-// Delete user by ID
+// // Delete user by ID
 const deleteUserById = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -66,7 +66,7 @@ const updateUserById = async (req, res) => {
 
 // Export all functions
 export {
-    getAllUsers,
+  getAllUsers,
     getUserById,
     deleteUserById,
     updateUserById
