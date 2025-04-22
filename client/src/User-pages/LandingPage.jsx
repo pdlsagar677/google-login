@@ -11,14 +11,14 @@ const LandingPage = () => {
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response.user;
-
+  
       const userData = {
         name: user.displayName,
         email: user.email,
         avatar: user.photoURL,
         phoneNumber: user.phoneNumber,
       };
-
+  
       const apiResponse = await fetch("http://localhost:5000/api/auth/google-login", {
         method: "POST",
         credentials: "include",
@@ -27,21 +27,27 @@ const LandingPage = () => {
         },
         body: JSON.stringify(userData),
       });
-
+  
       if (!apiResponse.ok) {
         throw new Error(`Failed to login: ${apiResponse.statusText}`);
       }
-
+  
       const responseData = await apiResponse.json();
-      
-      // Now we can use storeUserInLS here because it was defined at component level
+  
+      // Save to local storage or global auth store
       storeUserInLS(responseData.user);
-      
-      navigate("/home");
+  
+      // Navigate based on role
+      if (responseData.user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       console.error("Google login error:", error.message);
     }
   };
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-cyan-100">
       {/* Navigation */}

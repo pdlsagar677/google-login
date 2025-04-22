@@ -9,6 +9,7 @@ import ServicesPage from "./User-pages/Serivce";
 import Footer from "./layouts/Footer";
 import BookingPage from "./User-pages/Booking";
 import ContactPage from "./User-pages/Contact";
+import AdminDashboard from "./Admin-pages/Admin-dashboard";
 
 const App = () => {
   return (
@@ -25,10 +26,12 @@ const App = () => {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard /> } />
 
       </Routes>
       {/* universal footer */}
       <Footer/>
+
     </BrowserRouter>
   );
 };
