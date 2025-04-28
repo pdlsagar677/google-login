@@ -11,4 +11,8 @@ router.get("/users/:id", authMiddleware, adminMiddleware, adminController.getUse
 router.delete("/users/delete/:id", authMiddleware, adminMiddleware, adminController.deleteUserById);
 router.patch("/users/update/:id", authMiddleware, adminMiddleware, adminController.updateUserById);
 
+
+//admin service routing
+router.post("/packages",authMiddleware,  adminMiddleware, adminController.createPackage);
+
 export default router;

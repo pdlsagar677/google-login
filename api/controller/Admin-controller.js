@@ -1,5 +1,5 @@
 import User from "../models/User.model.js";
-
+import Package from '../models/Admin-service-model.js'
 // Get all users
 const getAllUsers = async (req, res, next) => {
   try {
@@ -64,10 +64,60 @@ const updateUserById = async (req, res) => {
     }
   };
 
+
+  //admin service package
+  const createPackage = async (req, res) => {
+    try {
+      const {
+        title,
+        description,
+        price,
+        originalPrice,
+        rating,
+        duration,
+        category,
+        image,
+        highlights,
+        offer,
+        itinerary,
+        inclusions,
+        exclusions
+      } = req.body;
+  
+      if (!title || !description || !price || !category) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+  
+      const newPackage = new Package({
+        title,
+        description,
+        price,
+        originalPrice,
+        rating,
+        duration,
+        category,
+        image,
+        highlights,
+        offer,
+        itinerary,
+        inclusions,
+        exclusions
+      });
+  
+      const createdPackage = await newPackage.save();
+      return res.status(201).json(createdPackage);
+    } catch (error) {
+      console.error("Error creating package:", error);
+      return res.status(500).json({ message: "Failed to create package", error });
+    }
+  };
+  
+
 // Export all functions
 export {
   getAllUsers,
     getUserById,
     deleteUserById,
-    updateUserById
+    updateUserById,
+    createPackage,
 };

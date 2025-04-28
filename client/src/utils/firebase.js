@@ -2,15 +2,16 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_APIKEY,
-  authDomain: "login-7bc01.firebaseapp.com",
-  projectId: "login-7bc01",
-  storageBucket: "login-7bc01.firebasestorage.app",
-  messagingSenderId: "451285101837",
-  appId: "1:451285101837:web:77735fd42c4f9374c79444"
+  apiKey: "AIzaSyA96K7SiT64K36PW7rHCVMq5hvxwHE-Vyc",
+  authDomain: "booking-system-6d659.firebaseapp.com",
+  projectId: "booking-system-6d659",
+  storageBucket: "booking-system-6d659.firebasestorage.app",
+  messagingSenderId: "1022588559752",
+  appId: "1:1022588559752:web:4e02f88fb428896e239a3d"
 };
 
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);  // Only initialize once
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
