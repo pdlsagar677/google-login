@@ -14,5 +14,6 @@ router.patch("/users/update/:id", authMiddleware, adminMiddleware, adminControll
 
 //admin service routing
 router.post("/packages",authMiddleware,  adminMiddleware, adminController.createPackage);
+router.get("/get-packages",authMiddleware,   adminController.getPackages);
 
 export default router;

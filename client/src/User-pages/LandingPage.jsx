@@ -19,7 +19,7 @@ const LandingPage = () => {
         phoneNumber: user.phoneNumber,
       };
   
-      const apiResponse = await fetch("http://localhost:5000/api/auth/google-login", {
+      const apiResponse = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         credentials: "include",
         headers: {
